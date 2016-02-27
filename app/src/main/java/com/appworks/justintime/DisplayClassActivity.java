@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class DisplayClassActivity extends AppCompatActivity {
 
 
     private ArrayAdapter<String> mClassListAdapter;
+    private AdapterView.OnItemClickListener mClassClickedHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class DisplayClassActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddNewClass.class);
+                Intent intent = new Intent(getApplicationContext(), AddNewClassActivity.class);
                 startActivity(intent);
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
@@ -58,12 +60,23 @@ public class DisplayClassActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.listview_classes);
 
-        // Set weekForecast adapter on listView
-        listView.setAdapter(mClassListAdapter);
-
         // Set empty text if list view is empty
         TextView emptyText = (TextView)findViewById(android.R.id.empty);
         listView.setEmptyView(emptyText);
+
+        // Set weekForecast adapter on listView
+        listView.setAdapter(mClassListAdapter);
+
+        // Create a message handling object as an anonymous class.
+        mClassClickedHandler = new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                // Launch Edit View Activity
+                Intent intent = new Intent(getApplicationContext(), EditViewActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        listView.setOnItemClickListener(mClassClickedHandler);
     }
 
     @Override

@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="class_name_hint">Class Name</string>
     <string name="no_class">No class Added Yet!</string>
+    <string name="add_location">Add Location</string>
+    <string name="title_activity_edit_view">Edit</string>
+    <string name="title_activity_add_new_class">Add New Class</string>
 </resources>

@@ -2,12 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appworks.justintime">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- Google Play service version -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- Google maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key"
+            />
+
         <activity
             android:name=".DisplayClassActivity"
             android:label="@string/app_name"
@@ -19,8 +33,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddNewClass"
-            android:label="Add New Class"></activity>
+            android:name=".EditViewActivity"
+            android:label="@string/title_activity_edit_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddNewClassActivity"
+            android:label="@string/title_activity_add_new_class"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
