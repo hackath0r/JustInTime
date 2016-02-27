@@ -1,20 +1,20 @@
 package com.appworks.justintime;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -54,10 +54,10 @@ public class AddNewClassActivity extends AppCompatActivity implements
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-
+        // set default day and time of a class
         setDefaultDayTime();
 
+        // set day picker as on click listener on day text view
         mDayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +65,7 @@ public class AddNewClassActivity extends AppCompatActivity implements
             }
         });
 
+        // set time picker as on click listener on day text view
         mTimeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,13 +147,66 @@ public class AddNewClassActivity extends AppCompatActivity implements
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
 
+    // Set default day and time
+    private void setDefaultDayTime() {
+        // Set Default day
+        dayString = "Sunday";
+        mDayView.setText(dayString);
+
+        // Set default time
+        setTimeString(12, 0, 0, DateFormat.is24HourFormat(getApplicationContext()));
+        mTimeView.setText(timeString);
+    }
+
+    // DialogFragment to pick a day for a class
+    public static class DayPickerFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.pick_day)
+                    .setItems(R.array.days_array, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // The 'which' argument contains the index position
+                            // of the selected item
+                            switch (which){
+                                case 0:
+                                    dayString = "Sunday";
+                                    break;
+                                case 1:
+                                    dayString = "Monday";
+                                    break;
+                                case 2:
+                                    dayString = "Tuesday";
+                                    break;
+                                case 3:
+                                    dayString = "Wednesday";
+                                    break;
+                                case 4:
+                                    dayString = "Thursday";
+                                    break;
+                                case 5:
+                                    dayString = "Friday";
+                                    break;
+                                case 6:
+                                    dayString = "Saturday";
+                                    break;
+                            }
+
+                            mDayView.setText(dayString);
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
     private static void setTimeString(int hourOfDay, int minute, int am_pm, boolean is24HourFormat) {
         String hour = "" + hourOfDay;
         String min = "" + minute;
         String append = "";
 
-        if (hourOfDay < 10)
+        if (hourOfDay < 10) {
             hour = "0" + hourOfDay;
+        }
         if (minute < 10)
             min = "0" + minute;
         if (am_pm == Calendar.PM)
@@ -167,46 +221,7 @@ public class AddNewClassActivity extends AppCompatActivity implements
         timeString = hour + ":" + min + append;
     }
 
-    // Sets default day and time
-    private void setDefaultDayTime() {
-
-        // Set default time
-        setTimeString(12, 0, 0, DateFormat.is24HourFormat(getApplicationContext()));
-        mTimeView.setText(timeString);
-
-    }
-
-    // DialogFragment used to pick a day for a class
-
-    public static class DayPickerFragment extends DialogFragment implements
-            DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            // Use the current date as the default date in the picker
-
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            //setDayString(year, monthOfYear, dayOfMonth);
-
-            //mDayView.setText(dayString);
-        }
-
-    }
-
-    // DialogFragment used to pick time of a class
-
+    // DialogFragment to pick a time for a class
     public static class TimePickerFragment extends DialogFragment implements
             TimePickerDialog.OnTimeSetListener {
 
@@ -235,11 +250,13 @@ public class AddNewClassActivity extends AppCompatActivity implements
         }
     }
 
+    // Show day picker dialog
     private void showDayPickerDialog() {
         DialogFragment newFragment = new DayPickerFragment();
         newFragment.show(getSupportFragmentManager(), "dayPicker");
     }
 
+    // Show time picker dialog
     private void showTimePickerDialog() {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");

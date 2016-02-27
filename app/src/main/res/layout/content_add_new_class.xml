@@ -19,7 +19,8 @@
         android:hint="@string/class_name_hint"
         android:inputType="text"
         android:minHeight="?android:attr/listPreferredItemHeight"
-        android:gravity="bottom"/>
+        android:gravity="bottom"
+        android:freezesText="true"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -44,7 +45,8 @@
             android:text="Sunday"
             android:id="@+id/day"
             android:gravity="center_vertical"
-            android:layout_weight="0.08" />
+            android:layout_weight="0.08"
+            android:freezesText="true"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,7 +54,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="12:00 AM"
             android:id="@+id/time"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:freezesText="true"/>
 
     </LinearLayout>
 
