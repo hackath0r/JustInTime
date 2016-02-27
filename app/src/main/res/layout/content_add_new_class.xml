@@ -19,7 +19,7 @@
         android:hint="@string/class_name_hint"
         android:inputType="text"
         android:minHeight="?android:attr/listPreferredItemHeight"
-        android:gravity="center_vertical"/>
+        android:gravity="bottom"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -41,18 +41,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView"
+            android:text="Sunday"
+            android:id="@+id/day"
             android:gravity="center_vertical"
-            android:layout_weight="0.83" />
+            android:layout_weight="0.08" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView2"
-            android:gravity="center_vertical" />
+            android:text="12:00 AM"
+            android:id="@+id/time"
+            android:gravity="center_vertical"/>
 
     </LinearLayout>
 

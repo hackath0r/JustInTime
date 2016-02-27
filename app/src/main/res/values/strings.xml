@@ -6,4 +6,7 @@
     <string name="add_location">Add Location</string>
     <string name="title_activity_edit_view">Edit</string>
     <string name="title_activity_add_new_class">Add New Class</string>
+    <string name="location_permission_denied">Application requires location permission to enable the \'current location\' feature. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt;.</string>
+    <string name="permission_required_toast">Location permission is required for this application to work</string>
+    <string name="permission_rationale_location">Access to the location service is required to use the \'current location\' feature, which shows your current location on the map.</string>
 </resources>
