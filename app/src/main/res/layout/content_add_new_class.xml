@@ -59,17 +59,71 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_linear_layout"
+            android:weightSum="1"
+            android:layout_alignParentStart="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/search_icon"
+                android:src="@mipmap/ic_search_black"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:hint="@string/add_address"
+                android:id="@+id/add_address"
+                android:gravity="center_vertical"
+                android:freezesText="true"
+                android:layout_marginStart="43dp"
+                android:layout_weight="0.98"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_linear_layout">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/map"
+                tools:context="com.appworks.mapapp.MapsActivity"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/marker"
+                android:src="@drawable/ic_map_marker"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <!---->
+
+
     <!-- may get used in map fragment xmlns:map="http://schemas.android.com/apk/res-auto" -->
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/map"
-        tools:context="com.appworks.mapapp.MapsActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

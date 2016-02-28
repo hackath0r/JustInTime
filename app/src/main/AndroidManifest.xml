@@ -28,18 +28,19 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".EditViewActivity"
             android:label="@string/title_activity_edit_view"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="com.appworks.justintime.DisplayClassActivity"/>
         <activity
             android:name=".AddNewClassActivity"
             android:label="@string/title_activity_add_new_class"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="com.appworks.justintime.DisplayClassActivity"/>
     </application>
 
 </manifest>

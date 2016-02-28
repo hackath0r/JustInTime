@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,13 @@ public class DisplayClassActivity extends AppCompatActivity {
     private ArrayAdapter<String> mClassListAdapter;
     private AdapterView.OnItemClickListener mClassClickedHandler;
 
+    protected static final String TAG = "DisplayClassActivity";
+
+    /**
+     *request code for Add new class intent activity
+     */
+    private static final int ADD_NEW_CLASS_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,7 +44,7 @@ public class DisplayClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddNewClassActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, ADD_NEW_CLASS_REQUEST_CODE);
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
             }
@@ -71,12 +79,24 @@ public class DisplayClassActivity extends AppCompatActivity {
         mClassClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // Launch Edit View Activity
-                Intent intent = new Intent(getApplicationContext(), EditViewActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getApplicationContext(), EditViewActivity.class);
+                //startActivity(intent);
             }
         };
 
         listView.setOnItemClickListener(mClassClickedHandler);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD_NEW_CLASS_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+
+            } else  {
+                Log.i(TAG, "Result from ");
+
+            }
+        }
     }
 
     @Override
