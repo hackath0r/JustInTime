@@ -1,6 +1,7 @@
 package com.appworks.justintime;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +25,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -87,6 +90,13 @@ public class AddNewClassActivity extends AppCompatActivity implements
     private static String timeString;
     private static String dayString;
 
+    private static int mHour;
+    private static int mMinute;
+    private static String mAMPM;
+
+    private static EditText mClassNameView;
+    private static String mClassName;
+
     private static LinearLayout mSearchLinearLayout;
 
     /**
@@ -128,6 +138,8 @@ public class AddNewClassActivity extends AppCompatActivity implements
 
         mDayView = (TextView) findViewById(R.id.day);
         mTimeView = (TextView) findViewById(R.id.time);
+
+        mClassNameView = (EditText) findViewById(R.id.class_name);
 
         mSearchLinearLayout = (LinearLayout) findViewById(R.id.search_linear_layout);
         mAddAddress = (TextView) findViewById(R.id.add_address);
@@ -224,6 +236,27 @@ public class AddNewClassActivity extends AppCompatActivity implements
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
+            mClassName = mClassNameView.getText().toString();
+
+            if(mClassName == null || mClassName == ""
+                    || mAddressString == "" || mAddressString == "Add Location" ) {
+                Toast.makeText(getApplicationContext(),
+                        "Enter a class name and add a location before saving", Toast.LENGTH_LONG).show();
+                return true;
+            }
+
+            Intent intent = new Intent();
+            intent.putExtra("ClassName", mClassName);
+            intent.putExtra("day", dayString);
+            intent.putExtra("time", timeString);
+            intent.putExtra("hour", mHour);
+            intent.putExtra("minute", mMinute);
+            intent.putExtra("am_pm", mAMPM);
+            intent.putExtra("address", mAddressString);
+            intent.putExtra("lat", mLatitude);
+            intent.putExtra("long", mLongitude);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
 
             return true;
         }
@@ -507,10 +540,14 @@ public class AddNewClassActivity extends AppCompatActivity implements
                 hourOfDay -= 12;
             }
 
-            if (am_pm == Calendar.PM)
+            if (am_pm == Calendar.PM){
                 append = " PM";
-            else if (am_pm == Calendar.AM)
+                mAMPM = "PM";
+            }
+            else if (am_pm == Calendar.AM) {
                 append = " AM";
+                mAMPM = "AM";
+            }
         }
 
         String hour = "" + hourOfDay;
@@ -520,6 +557,9 @@ public class AddNewClassActivity extends AppCompatActivity implements
             hour = "0" + hourOfDay;
         if (minute < 10)
             min = "0" + minute;
+
+        mHour = hourOfDay;
+        mMinute = minute;
 
         timeString = hour + ":" + min + append;
     }
@@ -581,7 +621,7 @@ public class AddNewClassActivity extends AppCompatActivity implements
         protected void onReceiveResult(int resultCode, Bundle resultData) {
 
             // Display the address string or an error message sent from the intent service.
-            mAddressString = resultData.getString(Constants.RESULT_DATA_KEY).replaceAll("[\n\r]", "");;
+            mAddressString = resultData.getString(Constants.RESULT_DATA_KEY).replaceAll("[\n\r]", "");
             mAddAddress.setText(mAddressString);
 
         }

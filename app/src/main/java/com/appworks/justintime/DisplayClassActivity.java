@@ -31,6 +31,16 @@ public class DisplayClassActivity extends AppCompatActivity {
      */
     private static final int ADD_NEW_CLASS_REQUEST_CODE = 1;
 
+    protected String mClassName;
+    protected String dayString;
+    protected String timeString;
+    protected String mAddressString;
+    protected int mHour;
+    protected int mMinute;
+    protected String mAMPM;
+    protected double mLatitude;
+    protected double mLongitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -91,6 +101,15 @@ public class DisplayClassActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_NEW_CLASS_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                mClassName = data.getStringExtra("ClassName");
+                dayString = data.getStringExtra("day");
+                timeString = data.getStringExtra("time");
+                mHour = data.getIntExtra("hour", 12);
+                mMinute = data.getIntExtra("minute", 0);
+                mAMPM = data.getStringExtra("am_pm");
+                mAddressString = data.getStringExtra("address");
+                mLatitude = data.getDoubleExtra("lat", 0.0);
+                mLongitude = data.getDoubleExtra("long", 0.0);
 
             } else  {
                 Log.i(TAG, "Result from ");
