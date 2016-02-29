@@ -238,8 +238,9 @@ public class AddNewClassActivity extends AppCompatActivity implements
         if (id == R.id.action_save) {
             mClassName = mClassNameView.getText().toString();
 
-            if(mClassName == null || mClassName == ""
-                    || mAddressString == "" || mAddressString == "Add Location" ) {
+            if ((mClassName == null) || (mClassName.isEmpty())
+                    || (mAddressString == null) || (mAddressString.isEmpty())
+                    || (mAddressString == "Add Location") ) {
                 Toast.makeText(getApplicationContext(),
                         "Enter a class name and add a location before saving", Toast.LENGTH_LONG).show();
                 return true;

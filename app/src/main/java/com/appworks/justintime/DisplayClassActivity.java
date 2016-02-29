@@ -1,6 +1,7 @@
 package com.appworks.justintime;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -13,14 +14,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DisplayClassActivity extends AppCompatActivity {
 
 
+    ClassDetailsOpenHelper classDetailsDb;
+
+    List<String> mClassList;
     private ArrayAdapter<String> mClassListAdapter;
     private AdapterView.OnItemClickListener mClassClickedHandler;
 
@@ -43,11 +47,11 @@ public class DisplayClassActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +64,9 @@ public class DisplayClassActivity extends AppCompatActivity {
             }
         });
 
+        classDetailsDb = new ClassDetailsOpenHelper(this);
+
+        /*
         // Fake Weather data
         String[] data = {
                 "Mon 6/23 - Sunny - 31/17",
@@ -70,12 +77,28 @@ public class DisplayClassActivity extends AppCompatActivity {
                 "Sat 6/28 - TRAPPED IN WEATHERSTATION - 23/18",
                 "Sun 6/29 - Sunny - 20/7"
         };
+        */
 
-        List<String> classList = new ArrayList<>(Arrays.asList(data));
+        Cursor cursor = classDetailsDb.getAllData();
+
+        if (cursor.getCount() > 0) {
+            StringBuffer buffer = new StringBuffer();
+            mClassList = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                buffer.append(cursor.getString(1) + ", ");
+                buffer.append(cursor.getString(6) + " at ");
+                buffer.append(cursor.getString(7));
+
+                mClassList.add(buffer.toString());
+                buffer.delete(0, buffer.length());
+            }
+        }
+
 
         mClassListAdapter = new ArrayAdapter<>(getApplicationContext(),
-                R.layout.list_item_class, R.id.list_item_class_textview, classList);
+                R.layout.list_item_class, R.id.list_item_class_textview, mClassList);
 
+        // Get the list view by its id
         ListView listView = (ListView) findViewById(R.id.listview_classes);
 
         // Set empty text if list view is empty
@@ -110,6 +133,17 @@ public class DisplayClassActivity extends AppCompatActivity {
                 mAddressString = data.getStringExtra("address");
                 mLatitude = data.getDoubleExtra("lat", 0.0);
                 mLongitude = data.getDoubleExtra("long", 0.0);
+
+                boolean isInserted = classDetailsDb.insertData(mClassName, dayString, mHour, mMinute, mAMPM,
+                        timeString, mAddressString, mLatitude, mLongitude);
+
+                if(isInserted == true){
+                    mClassListAdapter.add(mClassName + ", " + timeString + " at " + mAddressString);
+                    Toast.makeText(this, "Class Added Successfully!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(this, "Class Add Failed", Toast.LENGTH_SHORT).show();
+                }
 
             } else  {
                 Log.i(TAG, "Result from ");
