@@ -59,25 +59,10 @@ public class DisplayClassActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddNewClassActivity.class);
                 startActivityForResult(intent, ADD_NEW_CLASS_REQUEST_CODE);
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
             }
         });
 
         classDetailsDb = new ClassDetailsOpenHelper(this);
-
-        /*
-        // Fake Weather data
-        String[] data = {
-                "Mon 6/23 - Sunny - 31/17",
-                "Tue 6/24 - Foggy - 21/8",
-                "Wed 6/25 - Cloudy - 22/17",
-                "Thurs 6/26 - Rainy - 18/11",
-                "Fri 6/27 - Foggy - 21/10",
-                "Sat 6/28 - TRAPPED IN WEATHERSTATION - 23/18",
-                "Sun 6/29 - Sunny - 20/7"
-        };
-        */
 
         Cursor cursor = classDetailsDb.getAllData();
 
@@ -94,7 +79,7 @@ public class DisplayClassActivity extends AppCompatActivity {
             }
         }
 
-
+        // Initialize class list adapter with already added classes
         mClassListAdapter = new ArrayAdapter<>(getApplicationContext(),
                 R.layout.list_item_class, R.id.list_item_class_textview, mClassList);
 
